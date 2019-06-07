@@ -8,6 +8,14 @@ use Groundhogg\Extension;
 
 class Plugin extends Extension{
 
+
+    /**
+     * Override the parent instance.
+     *
+     * @var Plugin
+     */
+    public static $instance;
+
     /**
      * Include any files.
      *
@@ -25,7 +33,9 @@ class Plugin extends Extension{
      */
     public function init_components()
     {
-        // TODO: Implement init_components() method.
+        $this->installer = new Installer();
+        $this->updater = new Updater();
+        $this->roles = new Roles();
     }
 
     /**
@@ -86,3 +96,5 @@ class Plugin extends Extension{
         Autoloader::run();
     }
 }
+
+Plugin::instance();

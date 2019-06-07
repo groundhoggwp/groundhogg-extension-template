@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name: Groundhogg Extension Name
+ * Plugin Name: Groundhogg - Extension Name
  * Plugin URI:  https://www.groundhogg.io/?utm_source=wp-plugins&utm_campaign=plugin-uri&utm_medium=wp-dash
  * Description: The description of your extension.
  * Version: 2.0
@@ -37,59 +37,48 @@ define( 'GROUNDHOGG_EXTENSION_URL', plugins_url( '/', GROUNDHOGG_EXTENSION__FILE
 define( 'GROUNDHOGG_EXTENSION_ASSETS_PATH', GROUNDHOGG_EXTENSION_PATH . 'assets/' );
 define( 'GROUNDHOGG_EXTENSION_ASSETS_URL', GROUNDHOGG_EXTENSION_URL . 'assets/' );
 
-add_action( 'plugins_loaded', 'groundhogg_extension_load_plugin_textdomain' );
+add_action( 'plugins_loaded', function (){
+    load_plugin_textdomain( GROUNDHOGG_EXTENSION_TEXT_DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
+} );
 
 define( 'GROUNDHOGG_EXTENSION_TEXT_DOMAIN', 'groundhogg' );
 
-if ( ! version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-    add_action( 'admin_notices', 'groundhogg_extension_fail_php_version' );
-} elseif ( ! version_compare( get_bloginfo( 'version' ), '4.7', '>=' ) ) {
-    add_action( 'admin_notices', 'groundhogg_extension_fail_wp_version' );
+if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
+    add_action( 'admin_notices', function(){
+        $message = sprintf( esc_html__( '%s requires PHP version %s+, plugin is currently NOT RUNNING.', 'groundhogg' ), GROUNDHOGG_EXTENSION_NAME, '5.6' );
+        $html_message = sprintf( '<div class="notice notice-error">%s</div>', wpautop( $message ) );
+        echo wp_kses_post( $html_message );
+    } );
+} elseif ( ! version_compare( get_bloginfo( 'version' ), '4.9', '>=' ) ) {
+    add_action( 'admin_notices', function (){
+        $message = sprintf( esc_html__( '%s requires WordPress version %s+. Because you are using an earlier version, the plugin is currently NOT RUNNING.', 'groundhogg' ), GROUNDHOGG_EXTENSION_NAME, '4.9' );
+        $html_message = sprintf( '<div class="notice notice-error">%s</div>', wpautop( $message ) );
+        echo wp_kses_post( $html_message );
+    } );
 } else {
-    require GROUNDHOGG_EXTENSION_PATH . 'includes/plugin.php';
+
+    // Groundhogg is loaded, load now.
+    if ( did_action( 'groundhogg/loaded' ) ){
+
+        require GROUNDHOGG_EXTENSION_PATH . 'includes/plugin.php';
+
+    // Lazy load, wait for Groundhogg!
+    } else {
+        add_action('groundhogg/loaded', function () {
+            require GROUNDHOGG_EXTENSION_PATH . 'includes/plugin.php';
+        });
+
+        // Might not actually be loaded, so we'll check in later.
+        add_action( 'admin_notices', function () {
+
+            // Is not loaded!
+            if ( ! defined( 'GROUNDHOGG_VERSION' ) ){
+                $message = sprintf(esc_html__('Groundhoggg is not currently active, it must be active for %s to work.', 'groundhogg'), GROUNDHOGG_EXTENSION_NAME );
+                $html_message = sprintf('<div class="notice notice-warning">%s</div>', wpautop($message));
+                echo wp_kses_post($html_message);
+            }
+        });
+    }
 }
 
-/**
- * Load Groundhogg textdomain.
- *
- * Load gettext translate for Groundhogg text domain.
- *
- * @since 1.0.0
- *
- * @return void
- */
-function groundhogg_extension_load_plugin_textdomain() {
-    load_plugin_textdomain( GROUNDHOGG_EXTENSION_TEXT_DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
-}
 
-/**
- * Groundhogg admin notice for minimum PHP version.
- *
- * Warning when the site doesn't have the minimum required PHP version.
- *
- * @since 2.0
- *
- * @return void
- */
-function groundhogg_extension_fail_php_version() {
-    /* translators: %s: PHP version */
-    $message = sprintf( esc_html__( '%s requires PHP version %s+, plugin is currently NOT RUNNING.', 'groundhogg' ), GROUNDHOGG_EXTENSION_NAME, '5.6' );
-    $html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
-    echo wp_kses_post( $html_message );
-}
-
-/**
- * Groundhogg admin notice for minimum WordPress version.
- *
- * Warning when the site doesn't have the minimum required WordPress version.
- *
- * @since 2.0
- *
- * @return void
- */
-function groundhogg_extension_fail_wp_version() {
-    /* translators: %s: WordPress version */
-    $message = sprintf( esc_html__( '%s requires WordPress version %s+. Because you are using an earlier version, the plugin is currently NOT RUNNING.', 'groundhogg' ), GROUNDHOGG_EXTENSION_NAME, '4.9' );
-    $html_message = sprintf( '<div class="error">%s</div>', wpautop( $message ) );
-    echo wp_kses_post( $html_message );
-}
