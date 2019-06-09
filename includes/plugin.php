@@ -49,14 +49,6 @@ class Plugin extends Extension{
     }
 
     /**
-     * @return string
-     */
-    public function get_display_description()
-    {
-        // TODO: Implement get_display_description() method.
-    }
-
-    /**
      * Get the version #
      *
      * @return mixed
@@ -64,14 +56,6 @@ class Plugin extends Extension{
     public function get_version()
     {
         return GROUNDHOGG_EXTENSION_VERSION;
-    }
-
-    /**
-     * @return string
-     */
-    public function get_display_name()
-    {
-        return GROUNDHOGG_EXTENSION_NAME;
     }
 
     /**
