@@ -73,7 +73,7 @@ if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
 
             // Is not loaded!
             if ( ! defined( 'GROUNDHOGG_VERSION' ) ){
-                $message = sprintf(esc_html__('Groundhoggg is not currently active, it must be active for %s to work.', 'groundhogg'), GROUNDHOGG_EXTENSION_NAME );
+                $message = sprintf(esc_html__('Groundhogg is not currently active, it must be active for %s to work.', 'groundhogg'), GROUNDHOGG_EXTENSION_NAME );
                 $html_message = sprintf('<div class="notice notice-warning">%s</div>', wpautop($message));
                 echo wp_kses_post($html_message);
             }
