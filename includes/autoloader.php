@@ -52,8 +52,8 @@ class Autoloader {
 		} else {
 			$filename = strtolower(
 				preg_replace(
-					[ '/([a-z])([A-Z])/', '/_/', '/\\\/' ],
-					[ '$1-$2', '-', DIRECTORY_SEPARATOR ],
+					[ '/_/', '/\\\/' ],
+					[ '-', DIRECTORY_SEPARATOR ],
 					$relative_class_name
 				)
 			);

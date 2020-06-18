@@ -19,6 +19,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
+
 namespace GroundhoggExtension;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -49,12 +50,12 @@ add_action( 'plugins_loaded', function () {
 define( 'GROUNDHOGG_EXTENSION_TEXT_DOMAIN', 'groundhogg' );
 
 // Check PHP and WP are up to date!
-if ( check_wp_version() && check_php_version() ){
+if ( check_wp_version() && check_php_version() ) {
 
 	// Groundhogg is loaded, load now.
 	if ( did_action( 'groundhogg/loaded' ) ) {
 
-		if ( check_core_version() ){
+		if ( check_core_version() ) {
 			require __DIR__ . '/includes/plugin.php';
 		}
 
@@ -62,7 +63,7 @@ if ( check_wp_version() && check_php_version() ){
 	} else {
 
 		add_action( 'groundhogg/loaded', function () {
-			if ( check_core_version() ){
+			if ( check_core_version() ) {
 				require __DIR__ . '/includes/plugin.php';
 			}
 		} );
