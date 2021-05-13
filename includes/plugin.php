@@ -5,6 +5,8 @@ namespace GroundhoggExtension;
 use Groundhogg\Admin\Admin_Menu;
 use Groundhogg\DB\Manager;
 use Groundhogg\Extension;
+use GroundhoggExtension\Steps\Actions\Custom_Action;
+use GroundhoggExtension\Steps\Benchmarks\Custom_Benchmark;
 
 class Plugin extends Extension {
 
@@ -22,7 +24,7 @@ class Plugin extends Extension {
 	 * @return void
 	 */
 	public function includes() {
-//        require  GROUNDHOGG_EXTENSION_PATH . '/includes/functions.php';
+        require  __DIR__ . '/functions.php';
 	}
 
 	/**
@@ -61,6 +63,11 @@ class Plugin extends Extension {
 		return GROUNDHOGG_EXTENSION__FILE__;
 	}
 
+	public function register_funnel_steps( $manager ) {
+		$manager->add_step( new Custom_Benchmark() );
+		$manager->add_step( new Custom_Action() );
+	}
+
 	/**
 	 * Register autoloader.
 	 *
@@ -70,7 +77,7 @@ class Plugin extends Extension {
 	 * @access private
 	 */
 	protected function register_autoloader() {
-		require GROUNDHOGG_EXTENSION_PATH . 'includes/autoloader.php';
+		require __DIR__ . '/autoloader.php';
 		Autoloader::run();
 	}
 }

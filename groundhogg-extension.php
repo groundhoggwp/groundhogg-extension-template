@@ -1,12 +1,12 @@
 <?php
 /*
- * Plugin Name: Groundhogg - Extension
+ * Plugin Name: Groundhogg - My Extension
  * Plugin URI:  https://www.groundhogg.io/?utm_source=wp-plugins&utm_campaign=plugin-uri&utm_medium=wp-dash
  * Description: Your extension description here
  * Version: 1.0
- * Author: Groundhogg Inc.
+ * Author: Your Name
  * Author URI: https://www.groundhogg.io/?utm_source=wp-plugins&utm_campaign=author-uri&utm_medium=wp-dash
- * Text Domain: groundhogg
+ * Text Domain: groundhogg-extension
  * Domain Path: /languages
  *
  * Groundhogg is free software: you can redistribute it and/or modify
@@ -27,8 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'GROUNDHOGG_EXTENSION_VERSION', '1.0' );
-define( 'GROUNDHOGG_EXTENSION_PREVIOUS_STABLE_VERSION', '2.3.4' );
-define( 'GROUNDHOGG_EXTENSION_NAME', 'Extnesion Name' );
+define( 'GROUNDHOGG_EXTENSION_PREVIOUS_STABLE_VERSION', '1.0' );
+define( 'GROUNDHOGG_EXTENSION_NAME', 'My Extension Name' );
 
 define( 'GROUNDHOGG_EXTENSION__FILE__', __FILE__ );
 define( 'GROUNDHOGG_EXTENSION_PLUGIN_BASE', plugin_basename( GROUNDHOGG_EXTENSION__FILE__ ) );
@@ -41,13 +41,13 @@ define( 'GROUNDHOGG_EXTENSION_ASSETS_URL', GROUNDHOGG_EXTENSION_URL . 'assets/' 
 
 define( 'GROUNDHOGG_EXTENSION_REQUIRED_WP_VERSION', '4.9' );
 define( 'GROUNDHOGG_EXTENSION_REQUIRED_PHP_VERSION', '7.0' );
-define( 'GROUNDHOGG_EXTENSION_REQUIRED_CORE_VERSION', '2.1.14' );
+define( 'GROUNDHOGG_EXTENSION_REQUIRED_CORE_VERSION', '2.4' );
+
+define( 'GROUNDHOGG_EXTENSION_TEXT_DOMAIN', 'groundhogg-extension' );
 
 add_action( 'plugins_loaded', function () {
 	load_plugin_textdomain( GROUNDHOGG_EXTENSION_TEXT_DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
 } );
-
-define( 'GROUNDHOGG_EXTENSION_TEXT_DOMAIN', 'groundhogg' );
 
 // Check PHP and WP are up to date!
 if ( check_wp_version() && check_php_version() ) {
